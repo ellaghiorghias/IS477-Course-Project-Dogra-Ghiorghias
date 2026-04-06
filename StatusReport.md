@@ -53,7 +53,11 @@ We anticipate that the Data Quality step will be completed relatively soon after
 
 3.a: Updated Project Timeline
 
+Our project will span the remainder of the spring semester. Because we have failed to complete our quality assessment by Friday, April 3, as originally planned, we will push this task back to the end of this week, April 10. Our original plan has allowed some leeway for spare time, so we are not concerned about this benchmark. Upon settling the final dataset samples, we will be able to move forward. 
 
+Completing this task will prepare us for examination; sufficiently recording our raw data and remarking on any known flaws as we begin research. Our data cleaning will happen though out the following week, expecting completion by Friday, April 17 instead of April 10 - this step is designed to repair any of the deficiencies we discover. Missing values, outliers, and syntactic/semantic incongruencies will be resolved to the best of our ability. 
+
+The findings, future work, and challenges we record throughout our project will be tabulated, tracked, and record by the end of the month: Friday, May 1. All of our progress will be recorded in line with the rubric provided. This date will be our hard deadline for all required tasks/aspects.
 
 3.b: Changes to the Project Plan
 
