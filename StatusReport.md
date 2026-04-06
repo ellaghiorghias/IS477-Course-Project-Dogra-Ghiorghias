@@ -26,7 +26,7 @@ We have set up a directory framework and a file naming system for the repository
 At the present time, the root of the repository consists of two types of documents related to our project: documentation on the project itself (`README.md`, `ProjectPlan.md`) and acquisition scripts for getting data from two different sources (`acquire_zillow.py`, `acquire_census.py`).
 As we continue to work on this project, we will categorize files into following subdirectories:
 
-- `data/raw/` — stores untouched, unprocessed source files
+- `data/raw/` - stores untouched, unprocessed source files
 - `data/cleaned/` — stores files after processing and cleaning
 - `data/integrated/` — stores the merged final dataset
 - `scripts/` — stores Python scripts for all stages of pipelines
@@ -35,3 +35,13 @@ As we continue to work on this project, we will categorize files into following 
 
 Files saved in the repository will use the naming convention `{source}_{content}_{date}.csv`
 (Example: `zillow_zhvi_city_2026-04-01.csv`) in order to facilitate reproduction and tracking of where the files originated from.
+
+Task 3: Data Profile and Quality Assessment (Ella) — In Progress
+We are currently in the process of doing data profiling. The two data sets we are looking at are being examined and documented for their structure and the amount of data inside them, as well as identifying any problems with the data. Below are our initial findings:
+
+- The Zillow data set is in a wide format with one column representing every month; this means it will have to be transformed into a long format for analysis.
+- There are also different geographic names being used by the two data sets, so integration will present challenges.
+- The Census data has suppressions on small sample size city data that will have to be accounted for during the cleaning process.
+
+We anticipate that the Data Profile and Data Quality will be completed relatively soon after submitting this report. The complete findings will be located in `docs/data_profile.md` and `docs/data_quality_log.md`.
+
