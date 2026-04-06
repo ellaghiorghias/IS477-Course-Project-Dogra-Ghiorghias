@@ -3,9 +3,7 @@
 
 ### **Structure, Content, Characteristics:**
 
-The dataset is stored as a CSV file with a tabular structure:
-
-Rows: Each row represents a geographic unit (primarily cities)
+The Census dataset has a tidy, long format, where each row represents a city-year observation.
 
 Columns:
 
@@ -14,7 +12,7 @@ Columns:
 
 **median_household_income:** Median household income (in U.S. dollars)
 - Derived from ACS Table B19013
-- 
+  
 **state_fips:** Numeric code identifying the state
 - Useful for precise joins and avoiding naming inconsistencies
 
@@ -24,9 +22,11 @@ Columns:
 **year:**
 - Year of the ACS estimate (2010–2023)
 
-(optional) metadata fields appear depending on extraction
+Additionally, (optional) metadata fields appear depending on extraction
 
-### **Location in Repository:**
+### **Location in Repository:** 
+The Census dataset is located under the `data/` folder
+
 
 ### **Ethical & Legal Constraints:**
 
