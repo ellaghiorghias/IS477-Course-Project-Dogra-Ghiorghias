@@ -37,6 +37,7 @@ Files saved in the repository will use the naming convention `{source}_{content}
 (Example: `zillow_zhvi_city_2026-04-01.csv`) in order to facilitate reproduction and tracking of where the files originated from.
 
 Task 3: Data Profile and Quality Assessment (Ella) — In Progress
+
 We are currently in the process of doing data profiling. The two data sets we are looking at are being examined and documented for their structure and the amount of data inside them, as well as identifying any problems with the data. Below are our initial findings:
 
 - The Zillow data set is in a wide format with one column representing every month; this means it will have to be transformed into a long format for analysis.
@@ -44,4 +45,24 @@ We are currently in the process of doing data profiling. The two data sets we ar
 - The Census data has suppressions on small sample size city data that will have to be accounted for during the cleaning process.
 
 We anticipate that the Data Profile and Data Quality will be completed relatively soon after submitting this report. The complete findings will be located in `docs/data_profile.md` and `docs/data_quality_log.md`.
+
+3. Changes to the Project Plan
+
+Our overall approach is consistent with the original project plan. 
+
+4. Challenges and Plans to Address Them
+
+Challenge: Geographic identifier mismatch**
+
+Upon preliminary review of both data sets indicates obvious differences in the way that each organization has named cities/metropolitan areas. Zillow has a naming structure that contains only city names themselves, whereas the Census Bureau has added qualifiers which identify whether it is a county, state, etc. Example of this name is "St. Louis City (MO)"; therefore a string join will not catch all matching city names as valid in either of these data sets.
+
+Planned Approach to Eliminate the Differences: Fuzzy string matching will be performed using a Python Library to match on cities with a similarity score above an arbitrary threshold value for confidence and manually review any remaining ambiguous matches thereafter. The resulting matched city name crosswalk file will be saved as data/raw/city_name_crosswalk.csv and documented to ensure that the process can be reproduced.
+
+ 5. Individual Contribution Summaries
+
+Riya Dogra
+The main responsibility for this Milestone is acquiring the data. I did this by finding both source datasets for the acquisition scripts (acquire_zillow.py and acquire_census.py), testing them, and then committing raw data files to the git repo. I have also established the project directory structure and file naming conventions. Once the cleaning and integration pipeline is stable, I will start preparing for the automation workflow.
+
+Ella Ghiorghias
+As part of my milestone process, I have initiated data profiling and data quality assessment for both datasets. I am currently reviewing the structural layout and the completeness of data, along with formatting the datasets. I have been documenting initial findings for both datasets. I have identified the geographic naming mismatch as the main data quality issues to be addressed during the upcoming data cleaning. I will complete profile documentation soon, and then proceed to data cleansing and data integration over the next two weeks.
 
