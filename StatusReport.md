@@ -13,14 +13,14 @@ This is a summary of the housing affordability data pipeline project and where w
 
 2. Task-by-Task Update
 
-Task 1: Data Acquisition (Riya) -Complete
+Task 1: Data Acquisition (Riya) - Complete
 
 Both datasets have been downloaded and  verified.
 
 Acquisition scripts are located at `scripts/acquire_zillow.py` and `scripts/acquire_census.py`.
 
 
-Task 2: Storage and Organization (Riya) -Complete
+Task 2: Storage and Organization (Riya) - Complete
 
 We have set up a directory framework and a file naming system for the repository.
 At the present time, the root of the repository consists of two types of documents related to our project: documentation on the project itself (`README.md`, `ProjectPlan.md`) and acquisition scripts for getting data from two different sources (`acquire_zillow.py`, `acquire_census.py`).
@@ -43,12 +43,13 @@ We are currently in the process of doing data profiling. The two data sets we ar
 - The Zillow data set is in a wide format with one column representing every month; this means it will have to be transformed into a long format for analysis.
 - There are also different geographic names being used by the two data sets, so integration will present challenges.
 - The Census data has suppressions on small sample size city data that will have to be accounted for during the cleaning process.
+- Because of this, we may have to look at different sorting categories (like Metro areas) to avoid city naming conventions.
 
 We anticipate that the Data Profile and Data Quality will be completed relatively soon after submitting this report. The complete findings will be located in `docs/data_profile.md` and `docs/data_quality_log.md`.
 
 3. Changes to the Project Plan
 
-Our overall approach is consistent with the original project plan. 
+Our overall approach is consistent with the original project plan. There are a few minor edits that resulted from our preliminary examination of the data after aquiring the raw scripts. 
 
 4. Challenges and Plans to Address Them
 
