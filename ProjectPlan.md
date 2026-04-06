@@ -38,7 +38,7 @@ In our Project , this dataset will be used to measure housing price trends acr
 
 Dataset 2: U.S. Census Bureau Median Household Income Data
 
-Source:  U.S. Census Bureau / American Community Survey https://data.census.gov
+Source:  U.S. Census Bureau / American Community Survey : https://data.census.gov
 
  The American Community Survey (ACS) provides demographic and economic information about U.S. households. For this project we will use median household income data by city or metropolitan area.
  
