@@ -5,7 +5,7 @@
 
 The Census dataset has a tidy, long format, where each row represents a city-year observation.
 
-Columns:
+**Columns:**
 
 **name:** Full city name (e.g., “Chicago city, Illinois”)
 - Used as a primary geographic identifier
@@ -45,8 +45,29 @@ This dataset provides the income component of housing affordability. It enables 
 
 ### **Structure, Content, Characteristics:**
 
+This dataset is also stored as a CSV file, but it uses a wide time-series format instead.
+
+**Rows:** Each row represents a city
+
+**Columns:**
+
+**RegionName:** City name
+
+**State:** State abbreviation
+
+**Metro:** Associated metropolitan area
+
+**Time-series columns:** Monthly values (e.g., 2010-01, 2010-02, ..., 2023-12)
+
 ### **Location in Repository:**
+The Zillow dataset will be located under the `data/` folder alogn with the Census data, where it will be separated into "raw" and "cleaned" subgroups so that all of our steps and edits are evident for reproducibility. 
 
 ### **Ethical & Legal Constraints:**
+This dataset is publicly available for research use, just like the Census dataset we extracted. Because we are subject to Zillow’s terms of use, we cannot cannot "redistribute commercially without permission", which is outside of the scope of our project. 
+There are a number of ethical considerations we will have to keep in mind as well, namely:
+- ZHVI values are estimates, not exact transaction prices--this is crucial to keep in mind as we attempt to integrate the datasets and draw conclusions. 
+- Potential model bias should be acknowledged, as we've identified their history for automated data interpretation and exploitation in our Project Plan
+- Avoid overinterpreting short-term fluctuations, since the dataset runs over a longer period of time
 
 ### **Relation to Our Objective:**
+This dataset provides the housing cost component of the analysis. It enables the tracking of housing price trends over time, comparison of housing markets across cities, and measurement of price growth rates. With this dataset, we can directly answer this critical question: "How have housing prices changed across U.S. cities over time?"
