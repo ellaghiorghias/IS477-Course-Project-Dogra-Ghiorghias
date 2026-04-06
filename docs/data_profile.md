@@ -25,7 +25,7 @@ Columns:
 Additionally, (optional) metadata fields appear depending on extraction
 
 ### **Location in Repository:** 
-The Census dataset is located under the `data/` folder
+The Census dataset will be located under the `data/` folder
 
 
 ### **Ethical & Legal Constraints:**
