@@ -9,14 +9,13 @@
 
 ## Summary
 
-Housing affordability has emerged as one of the most pressing socioeconomic challenges in the United States. Over the past two decades, housing costs have risen dramatically in many metropolitan areas while wage growth has lagged behind, making it increasingly difficult for residents to afford homes near where they work or live.
+Housing affordability is now one of the biggest socioeconomic issues facing the United States. For the last twenty years, housing prices have gone way up for many metropolitan areas while wages have not kept pace which has made it harder for people to afford to live in the communities that they work or live.
 
-This project builds an automated, end-to-end data pipeline that collects, integrates, cleans, and analyzes publicly available data on housing prices and household income across U.S. cities from 2010 to 2023. We combine the Zillow Home Value Index (ZHVI)—a monthly time-series housing price dataset covering thousands of U.S. cities—with median household income estimates from the U.S. Census Bureau’s American Community Survey (ACS) 5-Year Estimates (Table B19013). Integration is performed using shared geographic identifiers (city name, state) and temporal identifiers (year), after resolving naming inconsistencies between the two sources via fuzzy string matching.
+As part of this project, we are building an automated end-to-end data pipeline that will collect, integrate, clean and analyze publicly available datasets containing housing price and household income data from 2010 - 2023 across all U.S. cities. We will use the Zillow Home Value Index (ZHVI), which contains monthly time series of housing prices in thousands of cities, along with median household income estimates provided by the U.S. Census Bureau's American Community Survey (ACS) 5-Year Estimates (Table B19013), to perform the integration of the two datasets. Integration will be performed based on shared geographic identifiers (city name and state), as well as temporal identifiers (year). Depending on the database's variability in the names of cities we will perform fuzzy string matching that will resolve the inconsistencies in the names of cities between the two datasets.
 
-Our central research questions are: (1) What trends exist in the relationship between housing prices and median household income across U.S. metropolitan areas from 2010 to 2023? (2) Which cities exhibit the largest increases in housing costs relative to income growth? (3) Are there regional geographic patterns in housing affordability trends? (4) Do incomes grow at a comparable rate to housing prices in large metropolitan areas?
+The central research problem is: What patterns do the housing market and median household income present in U.S. metropolitan areas between 2010 and 2023? Which metropolitan areas have experienced the greatest price increases for housing relative to income growth? Are there geographic patterns related to the relative affordability of housing? And does income growth match the rate of increase in the cost of housing within the largest metropolitan markets?
 
-Our analysis computes annual housing price-to-income ratios for matched cities and identifies areas where affordability has deteriorated most significantly. The data pipeline is fully automated and reproducible via a Snakemake workflow, enabling re-execution as new data become available.
-
+We will conduct an analysis of the ratio of median annual housing prices to annual income by metropolitan area on an annual basis for matched metropolitan areas, identifying the areas that have demonstrated the greatest reductions in affordability. This will be accomplished through an automated and repeatable data pipeline using a Snakemake-based workflow that will allow for re-execution when new data become available.
 ---
 
 ## Data Profile
@@ -31,7 +30,7 @@ Our analysis computes annual housing price-to-income ratios for matched cities a
 **Acquisition script:** scripts/acquire_zillow.py
 
 **Structure and Content:**
-The Zillow ZHVI dataset is provided as a single CSV file in wide time-series format. Each row represents one U.S. city or town, and columns include geographic metadata followed by one column per calendar month from January 2000 onward. Geographic columns include RegionID, SizeRank, RegionName (city name), RegionType, StateName, State (two-letter abbreviation), City, Metro, and CountyName. Monthly value columns follow a YYYY-MM-DD naming convention (e.g., 2010-01-31 through 2023-12-31).
+The Zillow ZHVI database has a single CSV file with time series arranged horizontally. Each line represents a single U.S. city/town; for each city/town there are several pieces of geographic information followed by one value for each month from the first month of the year 2000 until the last month (December) of the year 2023 as reported in this data set. The following is a list of the geographic information included in the Zillow ZHVI data: RegionID, SizeRank, RegionName (city name), RegionType, StateName, State (two-letter abbreviation), City, Metro, and CountyName. Monthly value columns follow a YYYY-MM-DD naming convention (e.g., 2010-01-31 through 2023-12-31).
 
 The ZHVI measures the typical home value for single-family residences, condominiums, and co-ops in the 33rd–67th price percentile tier, smoothed and seasonally adjusted. It is a model-based estimate, not a raw transaction price, covering approximately 10,000+ U.S. cities and towns.
 
@@ -45,7 +44,7 @@ The ZHVI measures the typical home value for single-family residences, condomini
 | Geographic granularity | City / place level |
 
 **Ethical and Legal Constraints:**
-The ZHVI dataset is freely available for non-commercial research and educational use under Zillow’s Terms of Use. Commercial redistribution is prohibited. For this academic project, use is fully compliant. ZHVI values are model-generated estimates and should not be interpreted as verified transaction prices. Potential algorithmic bias in Zillow’s valuation model is acknowledged.
+Non-commercially for research or education may access ZHVI dataset under Zillow's terms of use; therefore all uses in connection with this academic project comply fully with those terms. ZHVI values are estimates generated by a model and should not be considered actual sale price of transactions. Algorithms used to generate values may be subject to potential biases.
 
 **Relation to Research Questions:**
 Provides the housing cost component—the numerator of the price-to-income ratio.
@@ -82,32 +81,27 @@ The Census dataset is retrieved via the Census Bureau’s public API and stored 
 | Columns | 5 |
 | Temporal coverage | 2010–2023 |
 | Geographic granularity | Census-designated place level |
+**Legal and Ethical Boundaries:**
+Government-generated datasets (such as those from the U.S. census) are public domain records but can be complicated to access and use because they lack individual identification numbers. The generally accepted practice, when presenting ACS five-year estimates, is as long-term rolling averages with no statement of margin of error in the API response—simply put, from a statistical perspective, the margin of error is unknown. Estimates can also be unreliable for smaller geographical areas. Attribution to the U.S. Census Bureau is always provided.
 
-**Ethical and Legal Constraints:**
-Census data is in the public domain (U.S. Government work) and freely available for any use. No personally identifiable information is included. ACS 5-year estimates are rolling averages with margins of error not included in the API response; this statistical uncertainty is acknowledged. Smaller population places may have unreliable estimates. Proper attribution to the U.S. Census Bureau is provided throughout.
-
-**Relation to Research Questions:**
-Provides the income component—the denominator of the price-to-income ratio.
+**Associated Research Questions:**
+Supplying data to represent the income portion—the denominator of the price to income ratios.
 
 ---
 
-### Dataset Integration
+### Integration of Both Datasets
 
-The two datasets are linked by city name and year. Because naming conventions differ (Zillow: "Chicago"; Census: "Chicago city, Illinois"), a geographic crosswalk is built during cleaning using fuzzy string matching constrained within state, followed by manual review of ambiguous cases. The crosswalk is saved at data/raw/city_name_crosswalk.csv. The integrated output is data/integrated/housing_affordability.csv with columns: city, state, year, zhvi_annual_median, median_household_income, price_to_income_ratio.
-
-This project maps to the **CRISP-DM** data lifecycle model: Business Understanding → Data Understanding → Data Preparation → Integration → Analysis → Reporting.
-
+The two datasets were established as being able to be combined by restoring the city name and its year. Due to differences in how datasets are organized (Zillow uses "Chicago" for their city name; U.S. Census uses "Chicago city, Illinois"), a geographic crosswalk has been created as part of the cleaning process using fuzzy matching algorithms and evaluating results through manual review for any areas that are ambiguous. The crosswalk file is saved as data/raw/city_name_crosswalk.csv and was used to create the final dataset file data/integrated/housing_affordability.csv, which contains the following columns: city, state, year, zhvi_annual_median, median_household_income and price_to_income_ratio.
 ---
 
 ## Data Quality
 
 Full quality assessment results are documented in docs/data_quality_log.md.
+**Zillow ZHVI:** Approximately 8% of city-year data sets contain one or more monthly value gaps and the vast majority are located within smaller towns and cities established prior to 2012. There are no duplicate row entries. Outlier analysis results identified values with ≥ 4 standard deviations from the state mean (GDSPH/SD), resulting in a small number of data points being flagged for implausible fluctuations over an annual timeframe; these data points were retained but flagged with a zhvi_outlier_flag.
 
-**Zillow ZHVI:** Approximately 8% of city-year observations have at least one missing monthly value, concentrated in smaller cities and pre-2012. No duplicate rows found. Outlier detection (values >4 SD from state mean) flagged a small number of implausible single-year jumps; these are retained but flagged with a zhvi_outlier_flag column.
+**Census ACS Income:** About 12% of place-year data sets contained suppressed income value entries (Census identifier -666,666,666) that were acquisitioned as NaN. Suppressed incomes were disproportionately prevalent in towns with populations of <2,500. No duplicate combinations of state_fips + place_fips + year were identified.
 
-**Census ACS Income:** Approximately 12% of place-year observations have suppressed income values (Census sentinel −666,666,666), replaced with NaN during acquisition. These suppressions are concentrated in places with fewer than 2,500 residents. No duplicate state_fips + place_fips + year combinations found.
-
-**Post-integration:** After fuzzy matching, approximately 6,200 cities were successfully matched out of ~10,000 Zillow cities. Match rate for cities with populations above 25,000 exceeded 94%. Unmatched cities were primarily small towns with highly divergent naming conventions or present in only one dataset.
+**Post-Integration:** After fuzzy matching had been completed between the Zillow municipalities and other municipalities of the United States, a total of approximately 6,200 matching municipalities existed from an original total of 10,000 Zillow municipalities. The ratio of cities with greater than 25,000 population that were able to be matched is >94%. The cities that were not able to be matched primarily have less than 2,500 population and have substantially different naming conventions or were only available in one data set.
 
 ---
 
@@ -138,29 +132,28 @@ All cleaning is implemented in scripts/clean_and_integrate.py.
 
 ## Findings
 
-After integration and cleaning, annual price-to-income ratios were computed for 6,200+ matched cities across 2010–2023.
+After collecting, integrating, and cleaning data on home prices and incomes, annualized price-to-income ratios were calculated for 6,200+ matched cities for the period of 2010–2023.
 
-The national median price-to-income ratio rose from approximately 3.2 in 2010 to 5.1 in 2023—a 59% increase. This divergence accelerated sharply after 2020, coinciding with pandemic-era demand surges and historically low mortgage rates. The ten cities with the greatest affordability deterioration were concentrated in Florida (e.g., Naples, Cape Coral, Sarasota), the Mountain West (e.g., Boise, ID; Coeur d’Alène, ID), and coastal California, where ZHVI rose 150–250% while median income grew only 30–55%. Midwestern industrial cities showed the most stable or even declining ratios. A scatter analysis of annualized ZHVI growth vs. income growth revealed a weak positive correlation (r ≈ 0.22), confirming that price and income growth are largely decoupled. Visualizations are located in results/.
-
+The national median price to income ratio rose from about 3.2 in 2010 to about 5.1 in 2023, so the national median price to income ratio has increased by about 59%. After 2020, the rate of growth became dramatically accelerated associated with surges in purchasing activity related to the pandemic and with historically low mortgage rates. The ten cities with the largest deterioration in affordability are located primarily in Florida (e.g., Naples, Cape Coral, Sarasota), in the Mountain West states (e.g., Boise, ID; Coeur d'Alene, ID), and coastal California; in these markets, ZHVI increased between 150–250%, while median incomes increased only 30–55%. Among Midwest industrial cities, the ratios have generally been holding constant or even decreasing. Scatterplot analysis showing the relationship between annualized ZHVI growth and income growth identified a weak positive correlation (r ≈ 0.22), which reinforces the conclusion that price and income growth are generally moving independently of each other. Visual representations may be found within results/.
 ---
 
 ## Future Work
 
-Several directions exist for extending this work. Incorporating the bottom-tier ZHVI would better capture affordability for first-time buyers and lower-income households. Building an automated annual refresh mechanism would keep the pipeline current as new ACS and ZHVI data are released. Adding contextual variables such as mortgage rates, property taxes, rental vacancy rates, and zoning laws could enable causal modeling beyond descriptive trends.
+Additional directions to extend this study could include using the bottom tier of the ZHVI in order to better measure affordability for first time home buyers and lower income households, as well as creating an annual refresh mechanism that could automatically update the pipeline with the most current ACS and ZHVI data when they are released. Adding in contextual variables such as mortgage rates, property tax rates, rental vacancy rates, zoning laws, etc., would allow for causal modelling on top of descriptive trends.
 
-A key methodological lesson is that geographic identifier mismatches should be anticipated at the data acquisition stage. Future projects should prioritize shared standardized identifiers (e.g., FIPS codes via the HUD USPS ZIP-CBSA crosswalk) across datasets from the outset, rather than relying on post-hoc fuzzy name matching.
+A key methodological learning was that geographic identifier discrepancies should be expected to occur at the time of data acquisition. Future projects should attempt to create shared standardized identifiers (i.e., the FIPS code via HUD USPS ZIP-CBSA crosswalk) to use across datasets, rather than attempting to rely on fuzzy name matching after the fact.
 
 ---
 
 ## Challenges
 
-**Geographic naming mismatch** was the most significant technical challenge. Zillow uses short colloquial names while the Census API returns full legal names with type suffixes and state names appended. Simple string joins failed for a large share of cities. Fuzzy matching constrained within state, followed by manual review of ~340 ambiguous cases, resolved this but was time-intensive. The resulting crosswalk is fully documented.
-
-**Dataset size** presented a version control challenge. The raw Zillow CSV (~50 MB) and Census CSV (~120 MB) exceed GitHub’s recommended per-file limit. Both files are tracked via Git LFS; acquisition scripts allow re-download from original sources, and SHA-256 checksums in acquisition logs enable integrity verification.
-
-**Temporal granularity mismatch** between monthly ZHVI and annual ACS income required aggregation to annual medians. ACS “year” estimates are 5-year rolling averages, so comparisons should be interpreted as approximate trends rather than precise annual snapshots.
-
-**Census data suppression** affected ~12% of place-year records. Excluding heavily suppressed cities from the integrated analysis may slightly undersample small and rural communities, which is acknowledged as a limitation in all findings.
+The most significant technical issue was a **geographic naming mismatch.** Zillow provided abbreviated place names. The Census's API returns full place names with state names and a type suffix. Simply joining city names doesn't reliably match a high percentage of cities. By constraining fuzzy matching to state, manually reviewing ~340 ambiguous records, and documenting the crosswalk as fully as possible, the issue was resolved but it took a lot of time to complete.
+ 
+The **size of the datasets** created a version control issue. The raw Zillow CSV (~50 MB) and the Census CSV (~120 MB) are both too large to store in GitHub with each file exceeding GitHub's recommendation of file size. Both data files are managed by Git LFS and both have acquisition scripts that can be used to re-download the data on the system and SHA-256 checksums in the acquisition logs that can be used to verify the accuracy of the files.
+ 
+The mismatch in **temporal granularity** between the monthly ZHVI data and the annual ACS data created difficulty in comparing the datasets. The "race" estimates from ACS are rolling 5-year averages, thereby making any comparison mean you are looking at approximate trends versus precise annual snapshots of the data.
+ 
+**Data suppression** had a substantial impact on the comparison of the integrated datasets. Approximately 12% of the place-year records have had data suppressed by the census. By not including heavily suppressed municipalities from the integrated analysis, any comparison will likely under-sample really rural towns. The findings of the integrated analysis will contain this limitation.
 
 ---
 
