@@ -1,11 +1,9 @@
-
 import hashlib
 import os
 import sys
 from datetime import datetime
 
 import requests
-
 
 
 ZILLOW_URL = (
@@ -18,10 +16,7 @@ OUTPUT_FILE = os.path.join(OUTPUT_DIR, "zillow_zhvi_city.csv")
 LOG_FILE = os.path.join(OUTPUT_DIR, "zillow_acquisition_log.txt")
 
 
-
-
 def compute_sha256(filepath: str) -> str:
-    """Return the SHA-256 hex digest of a file."""
     h = hashlib.sha256()
     with open(filepath, "rb") as f:
         for chunk in iter(lambda: f.read(8192), b""):
@@ -30,7 +25,6 @@ def compute_sha256(filepath: str) -> str:
 
 
 def download_file(url: str, destination: str) -> None:
-    """Download a file from url and write it to destination."""
     print(f"Downloading: {url}")
     response = requests.get(url, stream=True, timeout=60)
     response.raise_for_status()
@@ -43,7 +37,6 @@ def download_file(url: str, destination: str) -> None:
 
 
 def write_log(filepath: str, url: str, checksum: str) -> None:
-    """Write acquisition metadata to a log file."""
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
     with open(filepath, "w") as f:
         f.write("Zillow ZHVI Acquisition Log\n")
