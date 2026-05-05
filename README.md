@@ -3,7 +3,7 @@
 ## Contributors
 
 - Riya Dogra (rdogra2@illinois.edu)
-- Ella Ghiorghias (eghiorg2@illinois.edu)
+- Ella Ghiorghias (ellamg3@illinois.edu)
 
 ---
 
