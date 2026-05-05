@@ -1,4 +1,3 @@
-
 import hashlib
 import os
 import time
@@ -8,33 +7,19 @@ import pandas as pd
 import requests
 
 
-
-# Years to collect (ACS 5-year estimates available from 2010 onward)
-YEARS = list(range(2010, 2024))  # 2010–2023
-
-# Census API variable:
-#   B19013_001E = Median household income (estimate)
-#   NAME        = Geographic name
+YEARS = list(range(2010, 2024))
 VARIABLES = "NAME,B19013_001E"
-
-# Geography: all "places" (cities, towns, CDPs) in the US
 GEO = "for=place:*&in=state:*"
 
 OUTPUT_DIR = "data/raw"
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "census_acs_income.csv")
 LOG_FILE = os.path.join(OUTPUT_DIR, "census_acquisition_log.txt")
 
-# Optional API key (set via environment variable)
 API_KEY = os.environ.get("CENSUS_API_KEY", "")
-
-# Pause between requests to be respectful of the API (seconds)
 REQUEST_DELAY = 0.5
 
 
-
-
 def fetch_year(year: int, api_key: str) -> pd.DataFrame:
-    """Fetch ACS 5-year median household income data for one year."""
     url = f"https://api.census.gov/data/{year}/acs/acs5"
     params = {
         "get": VARIABLES,
@@ -48,14 +33,12 @@ def fetch_year(year: int, api_key: str) -> pd.DataFrame:
     response.raise_for_status()
 
     data = response.json()
-    # First row is the header
     df = pd.DataFrame(data[1:], columns=data[0])
     df["year"] = year
     return df
 
 
 def clean_frame(df: pd.DataFrame) -> pd.DataFrame:
-    """Rename columns and do minimal type coercion."""
     df = df.rename(columns={
         "NAME": "name",
         "B19013_001E": "median_household_income",
@@ -65,13 +48,11 @@ def clean_frame(df: pd.DataFrame) -> pd.DataFrame:
     df["median_household_income"] = pd.to_numeric(
         df["median_household_income"], errors="coerce"
     )
-    # Sentinel value -666666666 means suppressed — replace with NaN
     df.loc[df["median_household_income"] < 0, "median_household_income"] = pd.NA
     return df
 
 
 def compute_sha256(filepath: str) -> str:
-    """Return the SHA-256 hex digest of a file."""
     h = hashlib.sha256()
     with open(filepath, "rb") as f:
         for chunk in iter(lambda: f.read(8192), b""):
@@ -80,7 +61,6 @@ def compute_sha256(filepath: str) -> str:
 
 
 def write_log(filepath: str, years: list, checksum: str) -> None:
-    """Write acquisition metadata to a log file."""
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
     with open(filepath, "w") as f:
         f.write("Census ACS Acquisition Log\n")
