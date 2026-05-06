@@ -59,16 +59,22 @@ In our Project, this dataset provides income data that will allow us to compare 
 ### **Dataset Integration**
 The datasets will be integrated using shared identifiers including:
 
-1.City 
-2.State 
+1.City
+
+2.State
+
 3.Year or date
 
 Because the Zillow dataset may be monthly while Census income data is yearly, the housing price data may be aggregated to yearly values to align the time scales between datasets. The resulting integrated dataset will contain:
 
-1.City 
-2.State 
-3.Year 
-4.Housing price index 
+1.City
+
+2.State
+
+3.Year
+
+4.Housing price index
+
 5.Median household income
 
 This combined dataset will allow us to compute affordability metrics such as the housing price to income ratio and analyze trends across cities.
