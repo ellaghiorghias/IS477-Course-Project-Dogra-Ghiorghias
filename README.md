@@ -96,6 +96,20 @@ The two datasets were established as being able to be combined by restoring the 
 
 ## Data Quality
 
+**Potential Limitations**
+
+On first glance, there were several limitations within our chosen datasets. Our Zillow housing data is based on proprietary estimates instead of raw, verifiable transaction data like the government website. Because there are models interfering with true prices and rent scores by predicting and reshaping distributions instead of collecting and leaving raw datapoints, we may be liable to a small level of statistical deviation attributed to inaccurate datasets.
+
+The government Census website also has several flaws: for example, it tends to operate with survey-based results instead of complete, accurate counts of each household’s situation. Both websites suffer from the same problem of attempted shortcuts to mass data collection; we will have to consolidate these differences and aggregate numbers to use them both simultaneously.
+
+The datasets also differ in their organization. Zillow defines all homes as single-family, condominium and co-operative homes with a county record. Unless specified, all series cover this segment of the housing stock. Census data, on the other hand, is organized within Census tracts instead of county boundaries. Inaccuracies could result if we attempt to inaccurately compare situations from two different locations, especially when so much of the American housing/property market is heavily demographically or socioeconomically divided.
+
+Another common problem among the datasets is a lack of complete data representation. Both the geographical Census data and the Zillow website may be underrepresenting some of the country’s most vulnerable, impoverished areas: these are crucial for accurate representation. In order to maintain an ethically sound project, we will have to make sure that any samples taken from the data are randomly weighed and adequately representative of the country’s population.
+
+**Potential Gaps**
+
+There were also some gaps within our project scope that we had to navigate. Our primary question demands an involved analysis of household-level data and affordability measures, but the aforementioned geographic-level documentation may prevent us from accurately completing this goal. There are also many additional variables that we are currently missing that could be of greater use in answering this question (i.e., interest rates, credit history, household population, property taxes, and city taxes). Since we have only two members, we must use the two chosen datasets to complete our question. One way to resolve this gap is to limit our geographic consideration to a well-documented area. This would exchange inclusivity for accuracy: we could ensure a smaller, more indicative project regarding regional housing affordability. Gaps within our chosen metrics will also need to be resolved, as we need to consolidate both Zillow housing statistics with Government Census demographic variables. Our solutions to these gaps will be discussed in greater detail throughout our metadata and data documentation, as the two sources are spliced and altered to suit our needs.
+
 Full quality assessment results are documented in docs/data_quality_log.md.
 **Zillow ZHVI:** Approximately 8% of city-year data sets contain one or more monthly value gaps and the vast majority are located within smaller towns and cities established prior to 2012. There are no duplicate row entries. Outlier analysis results identified values with ≥ 4 standard deviations from the state mean (GDSPH/SD), resulting in a small number of data points being flagged for implausible fluctuations over an annual timeframe; these data points were retained but flagged with a zhvi_outlier_flag.
 
