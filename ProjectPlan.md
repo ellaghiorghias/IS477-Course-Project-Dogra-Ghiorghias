@@ -1,4 +1,4 @@
-# **Project Context**
+# **Project Plan & Context**
 
 ### **Primary Issue**
 Housing affordability is a major issue throughout many areas of the United States. We've seen rising costs for more than 20 years on an average basis for most parts of the country, making it increasingly difficult for individuals to afford housing options near where they work. Additionally, there were high levels of growth throughout the United States; therefore, a need exists to compare price changes for housing versus income changes in the household for cities and metropolitan regions across the United States at a later date.
